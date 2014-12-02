@@ -1,13 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-	pageEncoding="ISO-8859-1"%>
-<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
-
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<html>
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<link href="assets/css/bootstrap-united.css" rel="stylesheet" />
-
+<%@ include file="/WEB-INF/views/include.jsp" %>  
 <style>
 .error {
 	color: #ff0000;
@@ -37,8 +28,7 @@
 	<div class="navbar navbar-default">
 
 		<div class="navbar-header">
-			<button type="button" class="navbar-toggle" data-toggle="collapse"
-				data-target=".navbar-responsive-collapse">
+			<button type="button" class="navbar-toggle">
 				<span class="icon-bar"></span> <span class="icon-bar"></span> <span
 					class="icon-bar"></span>
 			</button>
@@ -48,64 +38,40 @@
 			<ul class="nav navbar-nav navbar-right">
 				<li><a href="/programacionII">Inicio</a></li>
 				<li><a href="registro.html">Registro</a></li>
-				<li class="active"><a href="login.html">Iniciar Sesión</a></li>				
+				<li class="active"><a href="login.html">Iniciar Sesión</a></li>			
 			</ul>
 		</div>
 		<!-- /.nav-collapse -->
 	</div>
-
 	<div class="container">
-		<div class="jumbotron">
-			<div>
-				<h1>Bienvenido! <%=session.getAttribute("usuario")%></h1>
-				<p>Inicie Sesión ingresando su nombre de usuario y contraseña</p>
-			</div>
-		</div>
-
-		<div></div>
-	</div>
-
-	<div class="col-lg-6 col-lg-offset-3">
-		<div class="well">
-			<div class="container">
-				<div class="row">
-					<div class="col-lg-6">
-						<form:form id="myForm" method="post"
-							class="bs-example form-horizontal" commandName="usuarioLogin">
-							<fieldset>
-								<legend>Iniciar Sesión</legend>
-								<div class="form-group">
-									<label for="userNameInput" class="col-lg-3 control-label">Usuario</label>
-									<div class="col-lg-9">
-										<form:input type="text" name="j_username" class="form-control" path="userName"
-											id="userNameInput" placeholder="Usuario" />
-										<form:errors path="userName" cssClass="error" />
-									</div>
-								</div>
-
-								<div class="form-group">
-									<label for="passwordInput" class="col-lg-3 control-label">Contraseña</label>
-									<div class="col-lg-9">
-										<form:input type="password" class="form-control"
-											path="password" id="passwordInput" name="j_password" placeholder="Contraseña" />
-										<form:errors path="password" cssClass="error" />
-									</div>
-								</div>
-
-								<div class="col-lg-9 col-lg-offset-3">
-									<button class="btn btn-default">Cancelar</button>
-
-									<button class="btn btn-primary">Iniciar Sesión</button>
-								</div>
-
-							</fieldset>
-						</form:form>
-					</div>
-				</div>
-			</div>
+		<div class="row">
+    	<div class="col-md-5 col-md-offset-4"><h1>Iniciar Sesión</h1> </div>	
 		</div>
 	</div>
-
-
+	<div class="form-login">
+	<form:form id="myForm" method="post"
+		class="col-md-6" commandName="usuarioLogin">
+		<fieldset>
+			<div class="form-group">
+				<form:input type="text" name="j_usuario" class="form-control" path="usuario"
+						id="usuarioInput" placeholder="Usuario" />
+				<form:errors path="usuario" cssClass="error" />
+			</div>
+			<div class="form-group">
+				<form:input type="password" class="form-control" path="password" id="passwordInput" name="j_password" placeholder="Contraseña" />
+				<form:errors path="password" cssClass="error" />
+			</div> 			
+			<div class="row">
+			 	<div class="col-md-8 col-md-offset-0">
+			 		<button class="btn btn-primary">Iniciar Sesión</button>  					
+  				</div>
+  				<div class="col-md-0 col-md-offset-0">
+			 		<a href="recuperar_contrasena.html">Recuperar contraseña</a><br/>
+			 		<a href="registro.html">Crear usuario</a>
+			 	</div>
+			</div> 
+		</fieldset> 
+	</form:form>
+	</div>
 </body>
 </html>

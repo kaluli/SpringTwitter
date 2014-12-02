@@ -10,7 +10,10 @@ import com.programacionII.model.Usuario;
 @Repository("usuarioRepository")
 public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
 	
-	@Query("select s from Usuario s where s.userName = :userName")
-	Usuario findByUserName(@Param("userName") String userName);
+	@Query("select s from Usuario s where s.usuario = :usuario")
+	Usuario findByUserName(@Param("usuario") String usuario);
+
+	@Query("select s from Usuario s where s.usuario like :usuario")
+	Usuario findbyBusqueda(@Param("usuario") String usario);
 	
 }

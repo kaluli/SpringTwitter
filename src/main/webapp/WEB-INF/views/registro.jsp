@@ -1,18 +1,6 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-	pageEncoding="ISO-8859-1"%>
-
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
-<%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
-
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<html>
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<%@ include file="/WEB-INF/views/include.jsp" %>  
 <title>Iniciar Sesión</title>
-<link href="bootstrap/css/bootstrap.css" rel="stylesheet" />
 <link href="datepicker/css/datepicker.css" rel="stylesheet" />
-<link href="assets/css/bootstrap-united.css" rel="stylesheet" />
 
 <style>
 .green {
@@ -42,7 +30,6 @@
 <body>
 
 	<div class="navbar navbar-default">
-
 		<div class="navbar-header">
 			<button type="button" class="navbar-toggle" data-toggle="collapse"
 				data-target=".navbar-responsive-collapse">
@@ -61,50 +48,39 @@
 		<!-- /.nav-collapse -->
 	</div>
 
-	<script src="jquery-1.8.3.js">
-		
+	<script src="jquery-1.8.3.js">		
 	</script>
-
-	<script src="bootstrap/js/bootstrap.js">
-		
+	<script src="bootstrap/js/bootstrap.js">		
 	</script>
-
 	<script src="datepicker/js/bootstrap-datepicker.js">
 		
 	</script>
 
 
 	<div class="container">
-		<div class="jumbotron">
-			<div>
-				<h1>Bienvenido al sitio!</h1>
-				<p>Regístrese, es rápido!</p>
-			</div>
+		<div class="row">
+    	<div class="col-md-5 col-md-offset-4"><h1>Regístrese, es rápido!</h1></div>	
 		</div>
-
-		<div></div>
 	</div>
 
 	<c:if test="${not empty message}">
 		<div class="message green">${message}</div>
 	</c:if>
-
-	<div class="col-lg-6 col-lg-offset-3">
-		<div class="well">
+	<div class="container">		
 			<div class="container">
 				<div class="row">
-					<div class="col-lg-6">
+					<div class="col-lg-12">
 						<form:form id="myForm" method="post"
 							class="bs-example form-horizontal" commandName="usuario">
 							<fieldset>
 								<legend>Formulario de Registro</legend>
 
 								<div class="form-group">
-									<label for="userNameInput" class="col-lg-3 control-label">Usuario</label>
+									<label for="usuarioInput" class="col-lg-3 control-label">Usuario</label>
 									<div class="col-lg-9">
-										<form:input type="text" class="form-control" path="userName"
-											id="userNameInput" placeholder="Usuario" />
-										<form:errors path="userName" cssClass="error" />
+										<form:input type="text" class="form-control" path="usuario"
+											id="usuarioInput" placeholder="Usuario" />
+										<form:errors path="usuario" cssClass="error" />
 									</div>
 								</div>
 
@@ -118,41 +94,41 @@
 								</div>
 
 								<div class="form-group">
-									<label for="firstNameInput" class="col-lg-3 control-label">Nombre</label>
+									<label for="nombreInput" class="col-lg-3 control-label">Nombre</label>
 									<div class="col-lg-9">
-										<form:input type="text" class="form-control" path="firstName"
-											id="firstNameInput" placeholder="Nombre" />
-										<form:errors path="firstName" cssClass="error" />
+										<form:input type="text" class="form-control" path="nombre"
+											id="nombreInput" placeholder="Nombre" />
+										<form:errors path="nombre" cssClass="error" />
 									</div>
 								</div>
 
 								<div class="form-group">
-									<label for="lastNameInput" class="col-lg-3 control-label">Apellido</label>
+									<label for="apellidoInput" class="col-lg-3 control-label">Apellido</label>
 									<div class="col-lg-9">
-										<form:input type="text" class="form-control" path="lastName"
-											id="lastNameInput" placeholder="Apellido" />
-										<form:errors path="lastName" cssClass="error" />
+										<form:input type="text" class="form-control" path="apellido"
+											id="apellidoInput" placeholder="Apellido" />
+										<form:errors path="apellido" cssClass="error" />
 									</div>
 								</div>
 
 								<div class="form-group">
-									<label for="dateOfBirthInput" class="col-lg-3 control-label">Fecha de Nacimiento</label>
+									<label for="nacimientoInput" class="col-lg-3 control-label">Fecha de Nacimiento</label>
 									<div class="date form_date col-lg-9" data-date-format="mm/dd/yyyy" data-date-viewmode="years">
 										<form:input type="text" class="form-control"											
-											path="dateOfBirth" id="dateOfBirthInput"
+											path="nacimiento" id="nacimientoInput"
 											placeholder="Fecha de Nacimiento" />
-										<form:errors path="dateOfBirth" cssClass="error" />
+										<form:errors path="nacimiento" cssClass="error" />
 									</div>
 								</div>
 
 								<div class="form-group">
-									<label for="emailAddressInput" class="col-lg-3 control-label">Email
+									<label for="emailInput" class="col-lg-3 control-label">Email
 										</label>
 									<div class="col-lg-9">
 										<form:input type="text" class="form-control"
-											path="emailAddress" id="emailAddressInput"
+											path="email" id="emailInput"
 											placeholder="Email" />
-										<form:errors path="emailAddress" cssClass="error" />
+										<form:errors path="email" cssClass="error" />
 									</div>
 								</div>
 
@@ -177,7 +153,7 @@
 												</div>
 												<div class="modal-footer">
 													<a href="#" class="btn btn-default" data-dismiss="modal">Cerrar</a>
-													<input type="submit" value="Yes" id="yesbutton"
+													<input type="submit" value="Si" id="yesbutton"
 														class="btn btn-primary" data-loading-text="Guardando.."
 														data-complete-text="Registro Completo!">
 												</div>
@@ -190,14 +166,12 @@
 							</fieldset>
 						</form:form>
 					</div>
-				</div>
 			</div>
 		</div>
 	</div>
-
 	<script>
 		$(function() {
-			$('#dateOfBirthInput').datepicker();
+			$('#nacimientoInput').datepicker();
 		});
 	</script>
 

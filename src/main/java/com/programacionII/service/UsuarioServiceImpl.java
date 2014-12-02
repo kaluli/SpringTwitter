@@ -1,5 +1,7 @@
 package com.programacionII.service;
 
+import java.util.ArrayList;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -18,24 +20,36 @@ public class UsuarioServiceImpl implements UsuarioService {
 		return usuarioRepository.save(usuario);
 	}
 
-	public boolean findByLogin(String userName, String password) {	
-		Usuario stud = usuarioRepository.findByUserName(userName);
+	public Usuario findByLogin(String usuario, String password) {	
+		Usuario usu = usuarioRepository.findByUserName(usuario);
 		
-		if(stud != null && stud.getPassword().equals(password)) {
-			return true;
+		if(usu != null && usu.getPassword().equals(password)) {
+			return usu;
 		} 
 		
-		return false;		
+		return null;		
 	}
 
-	public boolean findByUserName(String userName) {
-		Usuario stud = usuarioRepository.findByUserName(userName);
+	public Usuario findByUserName(String usuario) {
+		Usuario usu = usuarioRepository.findByUserName(usuario);
 		
-		if(stud != null) {
-			return true;
+		if(usu != null) {
+			return usu;
 		}
 		
-		return false;
+		return null;
+	}
+
+	@Override
+	public ArrayList<Usuario> findAll() {
+		usuarioRepository.findAll();
+		return null;
+	}
+
+	@Override
+	public Usuario findbyBusqueda(String usuario) {
+		Usuario usu = usuarioRepository.findByUserName(usuario);		
+		return usu;
 	}
 
 }

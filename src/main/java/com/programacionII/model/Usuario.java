@@ -24,13 +24,13 @@ public class Usuario {
 	
 	@NotEmpty
 	@Size(min=4, max=20)
-	private String userName;
+	private String usuario;
 	
 	@NotEmpty
-	private String firstName;
+	private String nombre;
 	
 	@NotEmpty
-	private String lastName;
+	private String apellido;
 	
 	@NotEmpty
 	@Size(min=4, max=8)
@@ -38,12 +38,12 @@ public class Usuario {
 	
 	@NotEmpty
 	@Email
-	private String emailAddress;
+	private String email;
 	
 	@NotNull
 	@Past
-	@DateTimeFormat(pattern="MM/dd/yyyy")
-	private Date dateOfBirth;
+	@DateTimeFormat(pattern="dd/MM/yyyy")
+	private Date nacimiento;
 	
 	public Long getId() {
 		return id;
@@ -53,28 +53,28 @@ public class Usuario {
 		this.id = id;
 	}
 
-	public String getUserName() {
-		return userName;
+	public String getUsuario() {
+		return usuario;
 	}
 
-	public void setUserName(String userName) {
-		this.userName = userName;
+	public void setUsuario(String usuario) {
+		this.usuario = usuario;
 	}
 
-	public String getFirstName() {
-		return firstName;
+	public String getNombre() {
+		return nombre;
 	}
 
-	public void setFirstName(String firstName) {
-		this.firstName = firstName;
+	public void setNombre(String nombre) {
+		this.nombre = nombre;
 	}
 
-	public String getLastName() {
-		return lastName;
+	public String getApellido() {
+		return apellido;
 	}
 
-	public void setLastName(String lastName) {
-		this.lastName = lastName;
+	public void setApellido(String apellido) {
+		this.apellido = apellido;
 	}
 
 	public String getPassword() {
@@ -85,19 +85,19 @@ public class Usuario {
 		this.password = password;
 	}
 
-	public String getEmailAddress() {
-		return emailAddress;
+	public String getEmail() {
+		return email;
 	}
 
-	public void setEmailAddress(String emailAddress) {
-		this.emailAddress = emailAddress;
+	public void setEmail(String email) {
+		this.email = email;
 	}
 
-	public Date getDateOfBirth() {
-		return dateOfBirth;
+	public Date getNacimiento() {
+		return nacimiento;
 	}
 
-	public void setDateOfBirth(Date dateOfBirth) {
-		this.dateOfBirth = dateOfBirth;
+	public void setNacimiento(Date nacimiento) {
+		this.nacimiento = nacimiento;
 	}	
 }

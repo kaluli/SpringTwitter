@@ -8,7 +8,7 @@ public class UsuarioLogin {
 
 	@NotEmpty
 	@Size(min=4, max=20)
-	private String userName;
+	private String usuario;
 		
 	@NotEmpty
 	@Size(min=4, max=8)
@@ -18,15 +18,15 @@ public class UsuarioLogin {
 		return password;
 	}
 
-	public String getUserName() {
-		return userName;
+	public String getUsuario() {
+		return usuario;
 	}
 
 	public void setPassword(String password) {
 		this.password = password;
 	}
 
-	public void setUserName(String userName) {
-		this.userName = userName;
+	public void setUsuario(String usuario) {
+		this.usuario = usuario;
 	}	
 }

@@ -43,14 +43,9 @@ body {
 			<a class="btn btn-primary" href="registro.html">Registro » </a> <a
 				class="btn btn-primary" href="login.html">Iniciar sesión » </a>
 		</div>
-
-		<div></div>
 	</div>
-	<script src="jquery-1.8.3.js">
-</script>
-
-	<script src="bootstrap/js/bootstrap.js">
-</script>
+	<script src="jquery-1.8.3.js"></script>
+	<script src="bootstrap/js/bootstrap.js"></script>
 
 </body>
 </html>

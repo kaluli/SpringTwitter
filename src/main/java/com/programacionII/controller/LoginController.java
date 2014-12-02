@@ -34,7 +34,7 @@ public class LoginController {
 	public String registro(@Valid @ModelAttribute("usuario") Usuario usuario, BindingResult result, Model model) {		
 		if(result.hasErrors()) {
 			return "registro";
-		} else if(usuarioService.findByUserName(usuario.getUserName())) {
+		} else if(usuarioService.findByUserName(usuario.getUsuario()) != null) {
 			model.addAttribute("message", "El nombre de usuario existe. Prueba con otro");
 			return "registro";
 		} else {
@@ -47,13 +47,13 @@ public class LoginController {
 	@RequestMapping(value="/login", method=RequestMethod.GET)
 	public String login(Model model, HttpSession session) {
 		boolean existe = false;
-		if (session.getAttribute("usuario") != null){
-			String usuario = session.getAttribute("usuario").toString();		
-			existe = usuarioService.findByUserName(usuario);			
+		if (session.getAttribute("usuario") != null){			
+			existe = true;			
 		}	
 		
 		if (existe){
-			return "logueado";
+			session.setAttribute("usuario", session.getAttribute("usuario") );
+			return "redirect:perfil.html";
 		}
 		else{	
 			UsuarioLogin usuarioLogin = new UsuarioLogin();		
@@ -64,14 +64,14 @@ public class LoginController {
 	}
 	
 	@RequestMapping(value="/login", method=RequestMethod.POST)
-	public String login(@Valid @ModelAttribute("usuarioLogin") UsuarioLogin usuarioLogin, BindingResult result, HttpSession session ) {
+	public String login(@Valid @ModelAttribute("usuarioLogin") UsuarioLogin usuarioLogin, BindingResult result, HttpSession session, Model model ) {
 		if (result.hasErrors()) {
 			return "error";
 		} else {
-			boolean existe = usuarioService.findByLogin(usuarioLogin.getUserName(), usuarioLogin.getPassword());
-			if (existe) {	
-				session.setAttribute("usuario", usuarioLogin.getUserName());
-				return "logueado";
+			if (usuarioService.findByLogin(usuarioLogin.getUsuario(), usuarioLogin.getPassword()) != null) {					
+				session.setAttribute("usuario", usuarioLogin.getUsuario());
+				model.addAttribute("usuarioLogin", usuarioLogin);
+				return "redirect:perfil.html";
 			} else {				
 				return "error";
 			}
