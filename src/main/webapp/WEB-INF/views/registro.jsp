@@ -1,4 +1,4 @@
-<%@ include file="/WEB-INF/views/include.jsp" %>  
+<%@ include file="/WEB-INF/views/header.jsp" %>  
 <title>Iniciar Sesión</title>
 <link href="datepicker/css/datepicker.css" rel="stylesheet" />
 
@@ -47,14 +47,9 @@
 		</div>
 		<!-- /.nav-collapse -->
 	</div>
-
-	<script src="jquery-1.8.3.js">		
-	</script>
-	<script src="bootstrap/js/bootstrap.js">		
-	</script>
-	<script src="datepicker/js/bootstrap-datepicker.js">
-		
-	</script>
+	<script src="jquery-1.8.3.js"></script>
+	<script src="bootstrap/js/bootstrap.js"></script>	 
+	<script src="datepicker/js/bootstrap-datepicker.js"></script>
 
 
 	<div class="container">
@@ -199,7 +194,6 @@
 			
 		});
 	</script>
-
 
 </body>
 </html>

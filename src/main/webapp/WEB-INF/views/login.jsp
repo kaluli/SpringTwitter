@@ -1,4 +1,4 @@
-<%@ include file="/WEB-INF/views/include.jsp" %>  
+<%@ include file="/WEB-INF/views/header.jsp" %>  
 <style>
 .error {
 	color: #ff0000;
@@ -73,5 +73,4 @@
 		</fieldset> 
 	</form:form>
 	</div>
-</body>
-</html>
+<%@ include file="/WEB-INF/views/footer.jsp" %>

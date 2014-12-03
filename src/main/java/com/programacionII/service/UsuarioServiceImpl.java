@@ -1,6 +1,7 @@
 package com.programacionII.service;
 
-import java.util.ArrayList;
+
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -41,15 +42,13 @@ public class UsuarioServiceImpl implements UsuarioService {
 	}
 
 	@Override
-	public ArrayList<Usuario> findAll() {
-		usuarioRepository.findAll();
-		return null;
+	public List<Usuario> findAll() {
+		return usuarioRepository.findAll();
 	}
 
 	@Override
-	public Usuario findbyBusqueda(String usuario) {
-		Usuario usu = usuarioRepository.findByUserName(usuario);		
-		return usu;
+	public List<Usuario> findbyName(String nombre_usuario) {		
+		return usuarioRepository.findbyName(nombre_usuario);
 	}
 
 }

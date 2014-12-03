@@ -20,7 +20,7 @@ public class Usuario {
 
 	@Id
 	@GeneratedValue
-	private Long id;
+	private int id;
 	
 	@NotEmpty
 	@Size(min=4, max=20)
@@ -45,11 +45,11 @@ public class Usuario {
 	@DateTimeFormat(pattern="dd/MM/yyyy")
 	private Date nacimiento;
 	
-	public Long getId() {
+	public int getId() {
 		return id;
 	}
 
-	public void setId(Long id) {
+	public void setId(int id) {
 		this.id = id;
 	}
 

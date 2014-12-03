@@ -24,14 +24,17 @@ public class LoginController {
 	private UsuarioService usuarioService;
 		
 	@RequestMapping(value="/registro", method=RequestMethod.GET)	
-	public String registro(Model model) {
+	public String registro(Model model, HttpSession session) {
+		if(session.getAttribute("usuario") != null)
+			return "redirect:login.html";
+		
 		Usuario usuario= new Usuario();		
 		model.addAttribute("usuario", usuario);		
 		return "registro";
 	}
 	
 	@RequestMapping(value="/registro", method=RequestMethod.POST)
-	public String registro(@Valid @ModelAttribute("usuario") Usuario usuario, BindingResult result, Model model) {		
+	public String registro(@Valid @ModelAttribute("usuario") Usuario usuario, BindingResult result, Model model, HttpSession session) {		
 		if(result.hasErrors()) {
 			return "registro";
 		} else if(usuarioService.findByUserName(usuario.getUsuario()) != null) {
@@ -39,22 +42,21 @@ public class LoginController {
 			return "registro";
 		} else {
 			usuarioService.save(usuario);
+			session.setAttribute("usuario", usuario.getUsuario());
+			System.out.println("Session: " + session.getAttribute("usuario"));
 			model.addAttribute("message", "Se guardaron los datos del usuario");
+			model.addAttribute("usuario", session.getAttribute("usuario"));
 			return "redirect:login.html";
 		}
 	}
 
 	@RequestMapping(value="/login", method=RequestMethod.GET)
-	public String login(Model model, HttpSession session) {
-		boolean existe = false;
-		if (session.getAttribute("usuario") != null){			
-			existe = true;			
-		}	
-		
-		if (existe){
-			session.setAttribute("usuario", session.getAttribute("usuario") );
+	public String login(Model model, HttpSession session) {	
+		if (session.getAttribute("usuario") != null){						
+			session.setAttribute("usuario", session.getAttribute("usuario"));
+			System.out.println("Session: " + session.getAttribute("usuario"));
 			return "redirect:perfil.html";
-		}
+		}	
 		else{	
 			UsuarioLogin usuarioLogin = new UsuarioLogin();		
 			model.addAttribute("usuarioLogin", usuarioLogin);

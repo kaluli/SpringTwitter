@@ -1,4 +1,4 @@
-<%@ include file="/WEB-INF/views/include.jsp" %>  
+<%@ include file="/WEB-INF/views/header.jsp" %>  
 <title>Error de Login</title>
 </head>
 <body>
@@ -51,5 +51,4 @@
 	<div></div>
 
 	<a class="btn btn-primary" href="<spring:url value="login.html"/>">Intentarlo de nuevo?</a>
-</body>
-</html>
+<%@ include file="/WEB-INF/views/footer.jsp" %>
