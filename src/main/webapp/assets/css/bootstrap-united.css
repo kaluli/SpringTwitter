@@ -303,7 +303,7 @@ body {
   font-size: 14px;
   line-height: 1.428571429;
   color: #333333;
-  background-color: #ffffff;
+  background-color: #FFF0F5;
 }
 
 input,
@@ -803,6 +803,7 @@ pre code {
   padding-left: 15px;
   margin-right: auto;
   margin-left: auto;
+  background-color: #FFF0F5;
 }
 
 .container:before,
@@ -4732,7 +4733,7 @@ a.list-group-item.active > .badge,
   font-weight: 200;
   line-height: 2.1428571435;
   color: inherit;
-  background-color: #eeeeee;
+  background-color: #fff;
 }
 
 .jumbotron h1 {
@@ -6807,4 +6808,40 @@ td.visible-print {
 	float:right;
 	color:#ffffff; 	
 	text-decoration:none;
+}
+
+#usuario{
+	color:#8899a6;	
+}
+
+#cuadro{
+	padding: 9px 14px;
+	margin-bottom: 14px;
+	background-color: #ffffff;
+	border: 1px solid #e1e1e8;
+	border-radius: 18px;
+	min-height:200px;
+}
+
+#cuadro input {
+	margin-left:14px;
+}
+	
+#cuadro input[type=text] {
+	width:230px;
+	height:60px;
+	padding:10px;
+}
+
+#mensaje{
+	border: 1px solid #e1e1e8;
+	border-radius: 16px;
+	padding:10px;
+	cursor: pointer;
+}
+
+.imagenes img{
+	height:20px;
+	width:20px;
+	margin-left:100px;	
 }

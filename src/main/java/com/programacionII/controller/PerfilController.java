@@ -31,32 +31,37 @@ public class PerfilController {
 	private MensajeService mensajeService;
 
 	@RequestMapping(value="/perfil", method=RequestMethod.GET)	
-	public String perfil(Model model,  HttpSession session, @RequestParam(value="id", required=false) Integer id) {
+	public String perfil(Model model,  HttpSession session, @RequestParam(value="id", required=false) Integer id, @RequestParam(value="idmensaje", required=false) Integer idmensaje) {
 		
 		if(session.getAttribute("usuarioSession") == null)
 			return "redirect:login.html";
 		
-		if(id == null){
-			String nombre_usuario = session.getAttribute("usuarioSession").toString();
-			Usuario usu = usuarioService.findByUserName(nombre_usuario);
-			//Uso relacion entre Usuario -> Seguidores
-			model.addAttribute("siguiendo", usu.getSiguiendo().size());
-			model.addAttribute("seguidores", usu.getSeguidores().size());
-			
-			if (usu != null){ //viene desde login
-				model.addAttribute("usuario", usu);				
-			}		
-			
-			return "perfil";
-		}
-		else{
-			Usuario usu = usuarioService.findById(id);
-			model.addAttribute("siguiendo", usu.getSiguiendo().size());
-			model.addAttribute("seguidores", usu.getSeguidores().size());
-			model.addAttribute("usuario", usu);		
-			return "perfil";
+		if (idmensaje != null){ //validacion para que no pueda eliminar mensajes de otros..
+			Mensaje mensaje = new Mensaje();
+			mensaje.setId(idmensaje);
+			mensajeService.delete(mensaje);			
 		}
 		
+		Usuario usu = new Usuario();
+		if(id == null){ //Mi perfil
+			String nombre_usuario = session.getAttribute("usuarioSession").toString();
+			usu = usuarioService.findByUserName(nombre_usuario);
+			model.addAttribute("yomismo", true);		
+			//Uso relacion entre Usuario -> Seguidores
+			
+		}
+		else{ //Perfil de otro usuario
+			usu = usuarioService.findById(id);
+			model.addAttribute("yomismo", false);		
+		}
+		
+		model.addAttribute("siguiendo", usu.getSiguiendo().size());
+		model.addAttribute("seguidores", usu.getSeguidores().size());
+		
+		if (usu != null){ 
+			model.addAttribute("usuario", usu);				
+		}				
+		return "perfil";
 	}
 	
 	@RequestMapping(value="/perfil", method=RequestMethod.POST)
@@ -72,8 +77,13 @@ public class PerfilController {
 			usu = usuarioService.findByUserName(session.getAttribute("usuarioSession").toString());						
 			Mensaje mensaje = new Mensaje();
 			mensaje.setIdOrigen(usu.getId()); //Siempre es el de la sesion
-			if (id == null)
-				id = usu.getId();			
+			if (id == null){
+				id = usu.getId();
+				model.addAttribute("yomismo", true);
+			}
+			if (id != usu.getId()){
+				texto = texto + "@" + usu.getUsuario(); 
+			}
 			mensaje.setIdDestino(id);
 			mensaje.setTexto(texto);
 			mensajeService.save(mensaje);
@@ -81,6 +91,8 @@ public class PerfilController {
 			session.setAttribute("usuarioSession", usu.getUsuario());	
 			model.addAttribute("message", "Se guardaron los datos del usuario");	
 			model.addAttribute("usuario", usu);
+			model.addAttribute("siguiendo", usu.getSiguiendo().size());
+			model.addAttribute("seguidores", usu.getSeguidores().size());
 		}
 
 		return "perfil";

@@ -28,6 +28,12 @@ public class MensajeServiceImpl implements MensajeService {
 		mensajeRepository.save(mensaje);
 		return null;
 	}
+
+	@Transactional
+	public Mensaje delete(Mensaje mensaje) {
+		mensajeRepository.delete(mensaje);
+		return null;
+	}
 	
 	
 

@@ -2,15 +2,18 @@ package com.programacionII.model;
 
 import java.util.Date;
 import java.util.List;
+
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.persistence.OrderBy;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Past;
 import javax.validation.constraints.Size;
+
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -121,4 +124,16 @@ public class Usuario {
 	public void setSiguiendo(List<Seguidor> siguiendo) {
 		this.siguiendo = siguiendo;
 	}
+	
+	@OneToMany(targetEntity=Mensaje.class, mappedBy="idorigen", fetch=FetchType.EAGER)
+	@OrderBy("fecha DESC") 
+	private List<Mensaje> mensajes;   
+		
+	public List<Mensaje> getMensajes() {
+		return this.mensajes;
+	} 
+	public void setMensajes(List<Mensaje> mensajes) {
+		this.mensajes = mensajes;
+	}
+	
 }

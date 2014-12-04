@@ -1,12 +1,16 @@
 package com.programacionII.model;
 
+import java.util.Date;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Past;
 
 import org.hibernate.validator.constraints.NotEmpty;
+import org.springframework.format.annotation.DateTimeFormat;
 
 
 @Entity
@@ -25,7 +29,10 @@ public class Mensaje {
 		
 	@NotEmpty
 	private String texto;
-	
+		
+	@Past
+	@DateTimeFormat(pattern="dd/MM/yyyy")
+	private Date fecha;
 	
 	public int getIdOrigen() {
 		return idorigen;
@@ -59,4 +66,12 @@ public class Mensaje {
 		this.texto = texto;
 	}
 		
+	public Date getFecha() {
+		return fecha;
+	}
+
+	public void setFecha(Date fecha) {
+		this.fecha = fecha;
+	}	
+	
 }
