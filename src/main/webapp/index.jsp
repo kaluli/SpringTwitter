@@ -36,8 +36,7 @@ body {
 		<div class="jumbotron">
 			<div>
 				<h1>Final Programación II</h1>
-				<p>Karina Pángaro</p>
-				<p> QUE? <%= session.getAttribute("usuario") %> </p>
+				<p>Karina Pángaro</p>				
 			</div>
 
 			<a class="btn btn-primary" href="registro.html">Registro » </a> <a

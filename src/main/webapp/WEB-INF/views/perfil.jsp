@@ -17,7 +17,7 @@
 									
 			<ul class="nav navbar-nav navbar-right">
 				<li><a href="/programacionII">Inicio</a></li>				
-				<li class="active"><a href="micuenta.html"><%= session.getAttribute("usuario") %> </a></li>				
+				<li class="active"><a href="perfil.html">${usuario.usuario}</a></li>				
 				<li>
 				<form:form modelAttribute="buscar" action="${pageContext.request.contextPath}/buscar.html" method="get">
 				<div class="search-box">
@@ -42,17 +42,23 @@
 			<div class="row">
 				<div class="col-md-3">
 					Mi cuenta
-					<br/>${nombre} ${apellido}
-					<br/><p>@${username}</p>
-					<br/>Mensajes:
-					<br/>Seguidores:
-					<br/>Siguiendo: 				
+					<br/>${usuario.nombre} ${usuario.apellido}
+					<br/><p>@${usuario.usuario}</p>
+					<br/>Mensajes: 2
+					<br/>Seguidores: <a href="seguidores.html">${seguidores}</a>
+					<br/>Siguiendo: <a href="siguiendo.html">${siguiendo}</a>
+					
+									
 				</div>
 				<div class="col-md-6">
 					<form >			 		  
 	      		 	 	<textarea class="form-control" placeholder="Deja un mensaje" rows="4"></textarea>
 	      		 	 	<div align="right"> 
 							<button class="btn btn-primary" data-target="#themodal" data-toggle="modal">Enviar Mensaje</button>
+						</div>
+						<div>
+							<br/>Mensajes 1
+							<br/>Mensajes 2
 						</div>
 					</form>				
 		  	  	</div>					  
@@ -90,5 +96,6 @@
 	<br/> Leer acerca de Servicios -> y repository
 	<br/> que no se siga a si mismo
 	<br/> Crear regla de url amigables en bean xml
-  
+	<br/>   @Autowired - @Override - @Transactional
+	<br/>  Anotaciones, como se hacen - Leer acerca de reflexion
 <%@ include file="/WEB-INF/views/footer.jsp" %>

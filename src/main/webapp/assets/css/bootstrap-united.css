@@ -6783,3 +6783,28 @@ td.visible-print {
 #seguidores{
 	margin-left:250px;	
 }
+
+#seguir{
+	float:right;
+	color: #ffffff;
+    moz-user-select: none;
+    border: 1px solid transparent;
+    border-radius: 4px;
+    cursor: pointer;
+    display: inline-block;
+    font-size: 14px;
+    font-weight: normal;
+    line-height: 1.42857;
+    margin-bottom: 0;
+    padding: 8px 12px;
+    text-align: center;
+    vertical-align: middle;
+    white-space: nowrap;
+    background-color: #ff3e96;  
+}
+
+#seguir a:hover{
+	float:right;
+	color:#ffffff; 	
+	text-decoration:none;
+}

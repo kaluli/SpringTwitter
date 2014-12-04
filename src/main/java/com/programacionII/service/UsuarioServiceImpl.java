@@ -20,7 +20,8 @@ public class UsuarioServiceImpl implements UsuarioService {
 	public Usuario save(Usuario usuario) {
 		return usuarioRepository.save(usuario);
 	}
-
+	
+	@Override
 	public Usuario findByLogin(String usuario, String password) {	
 		Usuario usu = usuarioRepository.findByUserName(usuario);
 		
@@ -30,7 +31,8 @@ public class UsuarioServiceImpl implements UsuarioService {
 		
 		return null;		
 	}
-
+	
+	@Override
 	public Usuario findByUserName(String usuario) {
 		Usuario usu = usuarioRepository.findByUserName(usuario);
 		
@@ -49,6 +51,11 @@ public class UsuarioServiceImpl implements UsuarioService {
 	@Override
 	public List<Usuario> findbyName(String nombre_usuario) {		
 		return usuarioRepository.findbyName(nombre_usuario);
+	}
+
+	@Override
+	public Usuario findById(int id) {
+		return usuarioRepository.findbyId(id);
 	}
 
 }

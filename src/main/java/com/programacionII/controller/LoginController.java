@@ -17,7 +17,7 @@ import com.programacionII.model.UsuarioLogin;
 import com.programacionII.service.UsuarioService;
 
 @Controller
-@SessionAttributes("usuario") //Spring obtiene una instancia de la session
+@SessionAttributes("usuarioSession") //Spring obtiene una instancia de la session
 public class LoginController {
 	
 	@Autowired
@@ -25,9 +25,8 @@ public class LoginController {
 		
 	@RequestMapping(value="/registro", method=RequestMethod.GET)	
 	public String registro(Model model, HttpSession session) {
-		if(session.getAttribute("usuario") != null)
+		if(session.getAttribute("usuarioSession") != null)
 			return "redirect:login.html";
-		
 		Usuario usuario= new Usuario();		
 		model.addAttribute("usuario", usuario);		
 		return "registro";
@@ -42,19 +41,17 @@ public class LoginController {
 			return "registro";
 		} else {
 			usuarioService.save(usuario);
-			session.setAttribute("usuario", usuario.getUsuario());
-			System.out.println("Session: " + session.getAttribute("usuario"));
+			session.setAttribute("usuarioSession", usuario.getUsuario());
 			model.addAttribute("message", "Se guardaron los datos del usuario");
-			model.addAttribute("usuario", session.getAttribute("usuario"));
+			//model.addAttribute("usuario", session.getAttribute("usuario"));
 			return "redirect:login.html";
 		}
 	}
 
 	@RequestMapping(value="/login", method=RequestMethod.GET)
 	public String login(Model model, HttpSession session) {	
-		if (session.getAttribute("usuario") != null){						
-			session.setAttribute("usuario", session.getAttribute("usuario"));
-			System.out.println("Session: " + session.getAttribute("usuario"));
+		if (session.getAttribute("usuarioSession") != null){						
+			session.setAttribute("usuarioSession", session.getAttribute("usuarioSession"));
 			return "redirect:perfil.html";
 		}	
 		else{	
@@ -71,7 +68,7 @@ public class LoginController {
 			return "error";
 		} else {
 			if (usuarioService.findByLogin(usuarioLogin.getUsuario(), usuarioLogin.getPassword()) != null) {					
-				session.setAttribute("usuario", usuarioLogin.getUsuario());
+				session.setAttribute("usuarioSession", usuarioLogin.getUsuario());			
 				model.addAttribute("usuarioLogin", usuarioLogin);
 				return "redirect:perfil.html";
 			} else {				

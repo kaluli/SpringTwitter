@@ -1,15 +1,16 @@
 package com.programacionII.model;
 
 import java.util.Date;
-
+import java.util.List;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Past;
 import javax.validation.constraints.Size;
-
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -17,7 +18,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 @Entity
 @Table(name="usuario")
 public class Usuario {
-
+	
 	@Id
 	@GeneratedValue
 	private int id;
@@ -100,4 +101,24 @@ public class Usuario {
 	public void setNacimiento(Date nacimiento) {
 		this.nacimiento = nacimiento;
 	}	
+	
+	@OneToMany(targetEntity=Seguidor.class, mappedBy="idusuario", fetch=FetchType.EAGER)
+	private List<Seguidor> siguiendo;   
+	
+	@OneToMany(targetEntity=Seguidor.class, mappedBy="idseguidor", fetch=FetchType.EAGER)
+	private List<Seguidor> seguidores;   
+		
+	public List<Seguidor> getSeguidores() {
+		return this.seguidores;
+	} 
+	public void setSeguidores(List<Seguidor> seguidores) {
+		this.seguidores = seguidores;
+	}
+	
+	public List<Seguidor> getSiguiendo() {
+		return this.siguiendo;
+	} 
+	public void setSiguiendo(List<Seguidor> siguiendo) {
+		this.siguiendo = siguiendo;
+	}
 }

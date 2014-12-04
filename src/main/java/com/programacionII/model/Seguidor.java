@@ -1,23 +1,27 @@
 package com.programacionII.model;
+import java.util.List;
+
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import org.hibernate.validator.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 
 
 @Entity
 @Table(name="seguidor")
 public class Seguidor {
-
+	
 	@Id
 	@GeneratedValue
 	private int id;
 	
-	@NotEmpty
+	@NotNull
 	private int idusuario;
 	
-	@NotEmpty
+	@NotNull
 	private int idseguidor;
 		
 	public int getIdUsuario() {
@@ -43,5 +47,8 @@ public class Seguidor {
 	public void setId(int id) {
 		this.id = id;
 	}
+	
+	@OneToMany(targetEntity=Usuario.class, mappedBy="id", fetch=FetchType.EAGER)
+	private List<Usuario> usuarios;
 	
 }

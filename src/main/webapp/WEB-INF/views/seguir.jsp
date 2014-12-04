@@ -1,5 +1,5 @@
 <%@ include file="/WEB-INF/views/header.jsp" %>  
-<title>Buscar Usuarios</title>
+<title>Seguir</title>
 </head>
 <body>
 
@@ -15,14 +15,7 @@
 		<div class="navbar-collapse collapse navbar-responsive-collapse">								
 			<ul class="nav navbar-nav navbar-right">
 				<li><a href="/programacionII">Inicio</a></li>				
-				<li class="active">
-				<c:choose>
-				<c:when test="${logueado}"><a href="perfil.html"><%= session.getAttribute("usuarioSession") %></a></c:when>				
-				<c:otherwise>
-				<a href="login.html">Iniciar Sesión</a>
-				</c:otherwise>
-				</c:choose>				
-			 	</li>				
+				<li class="active"><a href="perfil.html"><%= session.getAttribute("usuarioSession") %> </a></li>				
 				<li>
 				<form:form modelAttribute="buscar" action="${pageContext.request.contextPath}/buscar.html" method="get">
 				<div class="search-box">
@@ -35,7 +28,7 @@
 					</div>
 					</form:form>					
 				</li>
-				<li><c:if test="${logueado}"><a href="logout.html">Cerrar Sesión</a></c:if></li>				 				
+				<li><a href="logout.html">Cerrar Sesión</a></li>				 				
 			</ul>
 			
 		</div>
@@ -51,20 +44,18 @@
 						<c:forEach var="usuario" items="${usuarios}">
 						<div>
 							<p>
-							<c:if test="${usuario.usuario != yomismo}">
 							<a href='verPerfil.html?id=<c:out value="${usuario.id}"/>'>
 							${usuario.nombre} ${usuario.apellido} (@${usuario.usuario}) </a>
 							<span id ="seguir"> 
 							<a href="${pageContext.request.contextPath}/seguir.html?id=${usuario.id}">
 							Seguir</a>
 							</span>
-							</c:if>
 							</p> 
 		                </div>
 						</c:forEach>
 		  	  	</div>					  
 				<div class="col-md-4">
-				 
+				 ${mensaje}
 				</div>
 			</div>		
 			

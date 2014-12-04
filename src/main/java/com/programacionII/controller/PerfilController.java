@@ -1,8 +1,10 @@
 package com.programacionII.controller;
 
 import java.util.List;
+
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -13,13 +15,12 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
-
 import com.programacionII.model.Usuario;
 import com.programacionII.service.UsuarioService;
 
 
 @Controller
-@SessionAttributes("usuario") //Spring obtiene una instancia de la session
+@SessionAttributes("usuarioSession") //Spring obtiene una instancia de la session
 public class PerfilController {
 	
 	@Autowired
@@ -27,41 +28,57 @@ public class PerfilController {
 		
 	@RequestMapping(value="/perfil", method=RequestMethod.GET)	
 	public String perfil(Model model,  HttpSession session) {
-		String nombre_usuario = session.getAttribute("usuario").toString();
+		if(session.getAttribute("usuarioSession") == null)
+			return "redirect:login.html";
+		
+		String nombre_usuario = session.getAttribute("usuarioSession").toString();
 		Usuario usu = usuarioService.findByUserName(nombre_usuario);
+		//Uso relacion entre Usuario -> Seguidores
+		model.addAttribute("siguiendo", usu.getSiguiendo().size());
+		model.addAttribute("seguidores", usu.getSeguidores().size());
+		
 		if (usu != null){ //viene desde login
-			model.addAttribute("nombre", usu.getNombre());		
-			model.addAttribute("apellido", usu.getApellido());		
-			model.addAttribute("username", usu.getUsuario());
+			model.addAttribute("usuario", usu);				
 		}		
 		return "perfil";
 	}
 	
 	@RequestMapping(value="/perfil", method=RequestMethod.POST)
-	public String perfil(@Valid @ModelAttribute("usuario") Usuario usuario, BindingResult result, Model model) {
-		Usuario usu = usuarioService.findByUserName(usuario.getUsuario());
-		model.addAttribute("nombre", usu.getNombre());		
-		model.addAttribute("apellido", usu.getApellido());		
-		model.addAttribute("username", usu.getUsuario());		
-		
+	public String perfil(@Valid @ModelAttribute("usuario") Usuario usuario, BindingResult result, Model model, HttpSession session) {
+		Usuario usu = usuarioService.findByUserName(usuario.getUsuario());		
+		session.setAttribute("usuarioSession", usuario.getUsuario());
+		model.addAttribute("message", "Se guardaron los datos del usuario");	
+		model.addAttribute("usuario", usu);		
 		return "perfil";
 	}
 	
 	//RequestParam va a ser requerido
 	@RequestMapping(value="/buscar", method=RequestMethod.GET)
-	public @ResponseBody Model buscar(Model model, @RequestParam("buscar") String buscar) {
-		List<Usuario> usuarios = usuarioService.findbyName(buscar);		
-		model.addAttribute("usuarios", usuarios);		
+	public @ResponseBody Model buscar(Model model, @RequestParam("buscar") String buscar, HttpSession session) {
+		boolean logueado;
+		if(session.getAttribute("usuarioSession") == null)
+			logueado = false;
+		else
+			logueado= true;
+		
+		session.setAttribute("usuarioSession",session.getAttribute("usuarioSession"));
+		
+		String nombre_usuario = session.getAttribute("usuarioSession").toString();
+		Usuario usu = usuarioService.findByUserName(nombre_usuario);
+		model.addAttribute("siguiendo", usu.getSeguidores());		
+		List<Usuario> usuarios = usuarioService.findbyName(buscar);				
+		model.addAttribute("usuarios", usuarios);
+		model.addAttribute("logueado", logueado);	
+		model.addAttribute("yomismo", session.getAttribute("usuarioSession"));		
 	    return model;
 	}
 	
 	@RequestMapping(params="buscar", method=RequestMethod.POST)
-	public String buscaFormulario(@ModelAttribute Usuario usuario, BindingResult resultado, Model model) throws Exception{
-			if(!resultado.hasErrors()){
-				List<Usuario> usuarios = usuarioService.findbyName("karina");			
-				model.addAttribute("usuarios", usuarios);
-		}
-		return "buscar";
+	public String buscaFormulario(@ModelAttribute Usuario usuario, BindingResult resultado, Model model, HttpSession session) throws Exception{
+		if(session.getAttribute("usuarioSession") == null)
+			return "redirect:login.html";
+		else
+			return "buscar";
 	}
 	
 	
