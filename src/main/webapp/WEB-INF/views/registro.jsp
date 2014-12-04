@@ -65,8 +65,7 @@
 			<div class="container">
 				<div class="row">
 					<div class="col-lg-12">
-						<form:form id="myForm" method="post"
-							class="bs-example form-horizontal" commandName="usuario">
+						<form:form method="post" class="bs-example form-horizontal" commandName="usuario">
 							<fieldset>
 								<legend>Formulario de Registro</legend>
 

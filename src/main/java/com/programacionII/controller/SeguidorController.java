@@ -29,15 +29,15 @@ public class SeguidorController {
 	private SeguidorService seguidorService;
 	@Autowired
 	private UsuarioService usuarioService;
+	private Seguidor seguidor;
 	
 	//RequestParam va a ser requerido
 		@RequestMapping(value="/seguir", method=RequestMethod.GET)
 		public @ResponseBody Model buscar(Model model, @RequestParam("id") int idseguidor, HttpSession session) {
-			Seguidor seguidor = new Seguidor();
+			seguidor = new Seguidor();
 			Usuario usu = new Usuario();
 			usu = usuarioService.findByUserName(session.getAttribute("usuarioSession").toString());						
 			if ((seguidor = seguidorService.findById(usu.getId(), idseguidor)) == null){
-				seguidor = new Seguidor();
 				seguidor.setIdUsuario(usu.getId());
 				seguidor.setIdSeguidor(idseguidor);
 				seguidorService.save(seguidor);

@@ -1,5 +1,7 @@
 <%@ include file="/WEB-INF/views/header.jsp" %>  
 <title>Mi Cuenta</title>
+<script src="jquery-1.8.3.js"></script>
+<script src="bootstrap/js/bootstrap.js"></script>	 
 </head>
 <body>
 
@@ -50,24 +52,51 @@
 					
 									
 				</div>
-				<div class="col-md-6">
-					<form >			 		  
-	      		 	 	<textarea class="form-control" placeholder="Deja un mensaje" rows="4"></textarea>
-	      		 	 	<div align="right"> 
-							<button class="btn btn-primary" data-target="#themodal" data-toggle="modal">Enviar Mensaje</button>
-						</div>
-						<div>
-							<br/>Mensajes 1
-							<br/>Mensajes 2
-						</div>
-					</form>				
-		  	  	</div>					  
 				<div class="col-md-3">
 					A quién seguir?
 				</div>
-			</div>		
+				<div class="col-md-6">
+					 <form:form id="enviaMensaje" method="post" class="bs-example form-horizontal" commandName="mensaje" >				
+						<div class="form-group">										
+							<form:input type="text" class="form-control" path="texto"
+							id="textoInput" placeholder="Escribe un mensaje" />
+							<form:errors path="texto" cssClass="error" />
+						</div>
+<div class="col-lg-9 col-lg-offset-3">
+									<button class="btn btn-default">Cancelar</button>
+									<button class="btn btn-primary" data-toggle="modal"
+										data-target="#themodal">Enviar</button>
+									<div id="themodal" class="modal fade" data-backdrop="static">									
+										<div class="modal-dialog">
+											<div class="modal-content">
+												<div class="modal-header">
+													<button type="button" class="close" data-dismiss="modal"
+														aria-hidden="true">&times;</button>
+													<h3>Enviar Mensaje</h3>
+												</div>
+												<div class="modal-body">
+													<p>Está seguro?</p>
+													<div class="progress progress-striped active">
+														<div id="doitprogress" class="progress-bar"></div>
+													</div>
+												</div>
+												<div class="modal-footer">
+													<a href="#" class="btn btn-default" data-dismiss="modal">Cerrar</a>
+													<input type="submit" value="Si" id="yesbutton"
+														class="btn btn-primary" data-loading-text="Guardando.."
+														data-complete-text="Mensaje Enviado!">
+												</div>
+											</div>
+										</div>
+									</div>
+
+								</div>
+						</form:form>						
+                </div>				     
+	  	  	</div>					  
+				
 		</div>		
-	</div>
+	</div>		
 	
 	<div class="panel panel-success">
 		<div class="panel-heading">
@@ -98,4 +127,32 @@
 	<br/> Crear regla de url amigables en bean xml
 	<br/>   @Autowired - @Override - @Transactional
 	<br/>  Anotaciones, como se hacen - Leer acerca de reflexion
-<%@ include file="/WEB-INF/views/footer.jsp" %>
+	
+	<script type="text/javascript">
+		$(function() {
+			var yesButton = $("#yesbutton");
+			var progress = $("#doitprogress");		
+			
+			yesButton.click(function() {		
+				yesButton.button("loading");
+
+				var counter = 0;
+				var countDown = function() {
+					counter++;
+					if (counter == 11) {
+						yesButton.button("complete");
+					} else {
+						progress.width(counter * 10 + "%");
+						setTimeout(countDown, 100);
+					}
+				};
+				
+				setTimeout(countDown, 100);
+			});
+			
+		});
+	</script>
+	
+
+</body>
+</html>

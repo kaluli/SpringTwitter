@@ -15,7 +15,12 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
+
+import com.programacionII.model.Mensaje;
+import com.programacionII.model.Seguidor;
 import com.programacionII.model.Usuario;
+import com.programacionII.model.UsuarioLogin;
+import com.programacionII.service.MensajeService;
 import com.programacionII.service.UsuarioService;
 
 
@@ -25,7 +30,9 @@ public class PerfilController {
 	
 	@Autowired
 	private UsuarioService usuarioService;
-		
+	@Autowired
+	private MensajeService mensajeService;
+	
 	@RequestMapping(value="/perfil", method=RequestMethod.GET)	
 	public String perfil(Model model,  HttpSession session) {
 		if(session.getAttribute("usuarioSession") == null)
@@ -44,11 +51,22 @@ public class PerfilController {
 	}
 	
 	@RequestMapping(value="/perfil", method=RequestMethod.POST)
-	public String perfil(@Valid @ModelAttribute("usuario") Usuario usuario, BindingResult result, Model model, HttpSession session) {
-		Usuario usu = usuarioService.findByUserName(usuario.getUsuario());		
-		session.setAttribute("usuarioSession", usuario.getUsuario());
-		model.addAttribute("message", "Se guardaron los datos del usuario");	
-		model.addAttribute("usuario", usu);		
+	public String perfil(@RequestParam("texto") String texto, @Valid @ModelAttribute("usuario") Usuario usuario, BindingResult result, Model model, HttpSession session) {
+		if (texto == null){
+			session.setAttribute("usuarioSession", usuario.getUsuario());
+			Usuario usu = usuarioService.findByUserName(usuario.getUsuario());					
+			model.addAttribute("message", "Se guardaron los datos del usuario");	
+			model.addAttribute("usuario", usu);
+		}
+		else{
+			Usuario usu = new Usuario();
+			usu = usuarioService.findByUserName(session.getAttribute("usuarioSession").toString());						
+			Mensaje mensaje = new Mensaje();
+			mensaje.setIdOrigen(usu.getId());
+			mensaje.setIdDestino(usu.getId());
+			mensaje.setTexto(texto);
+			mensajeService.save(mensaje);
+		}
 		return "perfil";
 	}
 	
@@ -80,9 +98,10 @@ public class PerfilController {
 		else
 			return "buscar";
 	}
-	
-	
-	
-	
+			
+	@ModelAttribute("mensaje")
+	public Mensaje createModel() {
+	    return new Mensaje();
+	}
 	
 }
