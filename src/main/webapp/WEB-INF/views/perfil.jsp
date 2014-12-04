@@ -19,7 +19,7 @@
 									
 			<ul class="nav navbar-nav navbar-right">
 				<li><a href="/programacionII">Inicio</a></li>				
-				<li class="active"><a href="perfil.html">${usuario.usuario}</a></li>				
+				<li class="active"><a href="perfil.html"><%= session.getAttribute("usuarioSession") %></a></li>				
 				<li>
 				<form:form modelAttribute="buscar" action="${pageContext.request.contextPath}/buscar.html" method="get">
 				<div class="search-box">
@@ -61,6 +61,9 @@
 							<form:input type="text" class="form-control" path="texto"
 							id="textoInput" placeholder="Escribe un mensaje" />
 							<form:errors path="texto" cssClass="error" />
+							
+							
+							
 						</div>
 <div class="col-lg-9 col-lg-offset-3">
 									<button class="btn btn-default">Cancelar</button>

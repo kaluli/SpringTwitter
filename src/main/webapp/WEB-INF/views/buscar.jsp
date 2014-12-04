@@ -52,7 +52,7 @@
 						<div>
 							<p>
 							<c:if test="${usuario.usuario != yomismo}">
-							<a href='verPerfil.html?id=<c:out value="${usuario.id}"/>'>
+							<a href='perfil.html?id=<c:out value="${usuario.id}"/>'>
 							${usuario.nombre} ${usuario.apellido} (@${usuario.usuario}) </a>
 							<span id ="seguir"> 
 							<a href="${pageContext.request.contextPath}/seguir.html?id=${usuario.id}">

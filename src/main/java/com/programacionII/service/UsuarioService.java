@@ -11,4 +11,5 @@ public interface UsuarioService {
 	public Usuario findById(int id);
 	public List<Usuario> findbyName(String nombre);
 	public List<Usuario> findAll();
+
 }

@@ -20,6 +20,6 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
 	public List<Usuario> findbyName(@Param("usuario") String usuario);
 
 	@Query("select s from Usuario s where s.id = :id")
-	public Usuario findbyId(int id); // Por que anda?
+	public Usuario findbyId(@Param("id") int id); // Por que anda?
 	
 }

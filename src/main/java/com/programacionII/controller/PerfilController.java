@@ -15,11 +15,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
-
 import com.programacionII.model.Mensaje;
-import com.programacionII.model.Seguidor;
 import com.programacionII.model.Usuario;
-import com.programacionII.model.UsuarioLogin;
 import com.programacionII.service.MensajeService;
 import com.programacionII.service.UsuarioService;
 
@@ -32,26 +29,38 @@ public class PerfilController {
 	private UsuarioService usuarioService;
 	@Autowired
 	private MensajeService mensajeService;
-	
+
 	@RequestMapping(value="/perfil", method=RequestMethod.GET)	
-	public String perfil(Model model,  HttpSession session) {
+	public String perfil(Model model,  HttpSession session, @RequestParam(value="id", required=false) Integer id) {
+		
 		if(session.getAttribute("usuarioSession") == null)
 			return "redirect:login.html";
 		
-		String nombre_usuario = session.getAttribute("usuarioSession").toString();
-		Usuario usu = usuarioService.findByUserName(nombre_usuario);
-		//Uso relacion entre Usuario -> Seguidores
-		model.addAttribute("siguiendo", usu.getSiguiendo().size());
-		model.addAttribute("seguidores", usu.getSeguidores().size());
+		if(id == null){
+			String nombre_usuario = session.getAttribute("usuarioSession").toString();
+			Usuario usu = usuarioService.findByUserName(nombre_usuario);
+			//Uso relacion entre Usuario -> Seguidores
+			model.addAttribute("siguiendo", usu.getSiguiendo().size());
+			model.addAttribute("seguidores", usu.getSeguidores().size());
+			
+			if (usu != null){ //viene desde login
+				model.addAttribute("usuario", usu);				
+			}		
+			
+			return "perfil";
+		}
+		else{
+			Usuario usu = usuarioService.findById(id);
+			model.addAttribute("siguiendo", usu.getSiguiendo().size());
+			model.addAttribute("seguidores", usu.getSeguidores().size());
+			model.addAttribute("usuario", usu);		
+			return "perfil";
+		}
 		
-		if (usu != null){ //viene desde login
-			model.addAttribute("usuario", usu);				
-		}		
-		return "perfil";
 	}
 	
 	@RequestMapping(value="/perfil", method=RequestMethod.POST)
-	public String perfil(@RequestParam("texto") String texto, @Valid @ModelAttribute("usuario") Usuario usuario, BindingResult result, Model model, HttpSession session) {
+	public String perfil(@RequestParam("texto") String texto, @RequestParam(value="id", required=false) Integer id, @Valid @ModelAttribute("usuario") Usuario usuario, BindingResult result, Model model, HttpSession session) {
 		if (texto == null){
 			session.setAttribute("usuarioSession", usuario.getUsuario());
 			Usuario usu = usuarioService.findByUserName(usuario.getUsuario());					
@@ -62,11 +71,18 @@ public class PerfilController {
 			Usuario usu = new Usuario();
 			usu = usuarioService.findByUserName(session.getAttribute("usuarioSession").toString());						
 			Mensaje mensaje = new Mensaje();
-			mensaje.setIdOrigen(usu.getId());
-			mensaje.setIdDestino(usu.getId());
+			mensaje.setIdOrigen(usu.getId()); //Siempre es el de la sesion
+			if (id == null)
+				id = usu.getId();			
+			mensaje.setIdDestino(id);
 			mensaje.setTexto(texto);
 			mensajeService.save(mensaje);
+			usu = usuarioService.findById(id);
+			session.setAttribute("usuarioSession", usu.getUsuario());	
+			model.addAttribute("message", "Se guardaron los datos del usuario");	
+			model.addAttribute("usuario", usu);
 		}
+
 		return "perfil";
 	}
 	
