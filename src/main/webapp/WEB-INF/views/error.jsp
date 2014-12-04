@@ -34,7 +34,7 @@
 	</div>
 
 	<!-- 
-	<legend>Student Enrollment Login Success</legend>
+	<legend>Programación II - Final Karina Pángaro</legend>
 	 -->
 	<div class="panel panel-danger">
 		<div class="panel-heading">
