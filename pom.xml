@@ -65,12 +65,7 @@
 				</exclusion>
 			</exclusions>
 		</dependency>
-	</dependencies>
-	<scm>
-		<connection>scm:git:git@github.com:elizabetht/StudentEnrollmentWithSpring.git</connection>
-		<developerConnection>scm:git:git@github.com:elizabetht/StudentEnrollmentWithSpring.git</developerConnection>
-		<url>git@github.com:elizabetht/StudentEnrollmentWithSpring.git</url>
-	</scm>
+	</dependencies>	
 	<developers>
 		<developer>
 			<id>kaluli</id>
