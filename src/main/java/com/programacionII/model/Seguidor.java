@@ -51,4 +51,11 @@ public class Seguidor {
 	@OneToMany(targetEntity=Usuario.class, mappedBy="id", fetch=FetchType.EAGER)
 	private List<Usuario> usuarios;
 	
+	public List<Usuario> getUsuarios() {
+		return this.usuarios;
+	} 
+	public void setUsuarios(List<Usuario> usuarios) {
+		this.usuarios = usuarios;
+	}
+	
 }

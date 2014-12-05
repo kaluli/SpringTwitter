@@ -11,7 +11,7 @@ public class UsuarioLogin {
 	private String usuario;
 		
 	@NotEmpty
-	@Size(min=4, max=8)
+	@Size(min=4, max=8)	
 	private String password;
 
 	public String getPassword() {

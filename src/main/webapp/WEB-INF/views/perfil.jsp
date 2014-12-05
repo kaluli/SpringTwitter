@@ -46,9 +46,9 @@
 					<h2>Mi cuenta</h2>
 					<br/><strong>${usuario.nombre} ${usuario.apellido}</strong>
 					<br/><p>@${usuario.usuario}</p>
-					<br/>Mensajes: 2
-					<br/>Seguidores: <a href="seguidores.html">${seguidores}</a>
-					<br/>Siguiendo: <a href="siguiendo.html">${siguiendo}</a>
+					<br/>Mensajes: ${mensajes}
+					<br/>Seguidores: <a href="seguidores.html?idusuario=${usuario.id}">${seguidores}</a>
+					<br/>Siguiendo: <a href="siguiendo.html?idusuario=${usuario.id}">${siguiendo}</a>
 					
 									
 				</div>
@@ -85,7 +85,6 @@
 						</div>						
 						<button class="btn btn-primary" data-toggle="modal"
 							data-target="#themodal">Enviar</button>
-						<button class="btn btn-default">Cancelar</button>						
 						<div id="themodal" class="modal fade" data-backdrop="static">									
 							<div class="modal-dialog">
 								<div class="modal-content">
@@ -134,8 +133,8 @@
 	<a class="btn btn-primary" href="<spring:url value="login.html"/>">Iniciar sesión 
 	con un usuario diferente?</a>
 	
-	<br/><br/>Tag al escribir en el perfil de otro usuario y con @		
-	<br/><br/>Busqueda  Seguir, crear BD y opcion Seguir	
+	<br/><br/>seguir y dejar de seguir!!!!			
+	<br/><br/>Tag al escribir en el perfil de otro usuario y con @ en la vista!!		
 	<br/><br/>Mi cuenta  
 	<br/>  Retwittear
 	<br/>  Responder

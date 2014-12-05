@@ -46,7 +46,7 @@
 		<div class="row">
     	<div class="col-md-5 col-md-offset-4"><h1>Iniciar Sesión</h1> </div>	
 		</div>
-	</div>
+	</div><br/>
 	<div class="form-login">
 	<form:form id="myForm" method="post"
 		class="col-md-6" commandName="usuarioLogin">
@@ -68,8 +68,11 @@
 			 		<a href="recuperar_contrasena.html">Recuperar contraseña</a><br/>
 			 		<a href="registro.html">Crear usuario</a>
 			 	</div>
-			</div> 
+			 	<c:if test="${error}">Usuario o contraseña incorrecta</c:if>
+			</div>
 		</fieldset> 
 	</form:form>
+	<br/>			
 	</div>
+	
 <%@ include file="/WEB-INF/views/footer.jsp" %>

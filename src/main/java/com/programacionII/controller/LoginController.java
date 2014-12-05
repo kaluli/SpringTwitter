@@ -1,8 +1,13 @@
 package com.programacionII.controller;
 
+import java.math.BigInteger;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
+import org.apache.tomcat.util.security.MD5Encoder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -10,6 +15,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
 import com.programacionII.model.Usuario;
@@ -40,6 +46,10 @@ public class LoginController {
 			model.addAttribute("message", "El nombre de usuario existe. Prueba con otro");
 			return "registro";
 		} else {
+		/*	String pass = usuario.getPassword();
+			MD5Encoder encoder = new MD5Encoder;
+			String hashedPass = encoder.encode(pass.getBytes());
+			usuario.setPassword(hashedPass);*/	       
 			usuarioService.save(usuario);
 			session.setAttribute("usuarioSession", usuario.getUsuario());
 			model.addAttribute("message", "Se guardaron los datos del usuario");
@@ -65,14 +75,16 @@ public class LoginController {
 	@RequestMapping(value="/login", method=RequestMethod.POST)
 	public String login(@Valid @ModelAttribute("usuarioLogin") UsuarioLogin usuarioLogin, BindingResult result, HttpSession session, Model model ) {
 		if (result.hasErrors()) {
-			return "error";
+			model.addAttribute("error");			
+			return "redirect:login.html";
 		} else {
 			if (usuarioService.findByLogin(usuarioLogin.getUsuario(), usuarioLogin.getPassword()) != null) {					
 				session.setAttribute("usuarioSession", usuarioLogin.getUsuario());			
 				model.addAttribute("usuarioLogin", usuarioLogin);
 				return "redirect:perfil.html";
-			} else {				
-				return "error";
+			} else {		
+				model.addAttribute("error");							
+				return "redirect:login.html";
 			}
 		}		
 	}

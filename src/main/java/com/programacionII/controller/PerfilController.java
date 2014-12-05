@@ -57,6 +57,7 @@ public class PerfilController {
 		
 		model.addAttribute("siguiendo", usu.getSiguiendo().size());
 		model.addAttribute("seguidores", usu.getSeguidores().size());
+		model.addAttribute("mensajes", usu.getMensajes().size());
 		
 		if (usu != null){ 
 			model.addAttribute("usuario", usu);				
@@ -85,12 +86,18 @@ public class PerfilController {
 				texto = texto + "@" + usu.getUsuario(); 
 			}
 			mensaje.setIdDestino(id);
-			mensaje.setTexto(texto);
-			mensajeService.save(mensaje);
-			usu = usuarioService.findById(id);
-			session.setAttribute("usuarioSession", usu.getUsuario());	
-			model.addAttribute("message", "Se guardaron los datos del usuario");	
+			if (texto.length() > 0){
+				mensaje.setTexto(texto);
+				mensajeService.save(mensaje);
+				usu = usuarioService.findById(id);
+				session.setAttribute("usuarioSession", usu.getUsuario());	
+				model.addAttribute("message", "Se guardaron los datos del usuario");
+			}
+			else
+				model.addAttribute("error", "Mensaje no puede estar en blanco");
+
 			model.addAttribute("usuario", usu);
+			model.addAttribute("mensajes", usu.getMensajes().size());
 			model.addAttribute("siguiendo", usu.getSiguiendo().size());
 			model.addAttribute("seguidores", usu.getSeguidores().size());
 		}
@@ -107,11 +114,13 @@ public class PerfilController {
 		else
 			logueado= true;
 		
-		session.setAttribute("usuarioSession",session.getAttribute("usuarioSession"));
-		
-		String nombre_usuario = session.getAttribute("usuarioSession").toString();
-		Usuario usu = usuarioService.findByUserName(nombre_usuario);
-		model.addAttribute("siguiendo", usu.getSeguidores());		
+		if(session.getAttribute("usuarioSession") != null){
+			session.setAttribute("usuarioSession",session.getAttribute("usuarioSession"));
+			String nombre_usuario = session.getAttribute("usuarioSession").toString();
+			Usuario usu = usuarioService.findByUserName(nombre_usuario);
+			model.addAttribute("seguidores", usu.getSeguidores());		
+			}
+			//VER
 		List<Usuario> usuarios = usuarioService.findbyName(buscar);				
 		model.addAttribute("usuarios", usuarios);
 		model.addAttribute("logueado", logueado);	

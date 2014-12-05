@@ -105,10 +105,10 @@ public class Usuario {
 		this.nacimiento = nacimiento;
 	}	
 	
-	@OneToMany(targetEntity=Seguidor.class, mappedBy="idusuario", fetch=FetchType.EAGER)
+	@OneToMany(targetEntity=Seguidor.class, mappedBy="idseguidor", fetch=FetchType.EAGER)
 	private List<Seguidor> siguiendo;   
 	
-	@OneToMany(targetEntity=Seguidor.class, mappedBy="idseguidor", fetch=FetchType.EAGER)
+	@OneToMany(targetEntity=Seguidor.class, mappedBy="idusuario", fetch=FetchType.EAGER)
 	private List<Seguidor> seguidores;   
 		
 	public List<Seguidor> getSeguidores() {
