@@ -20,4 +20,5 @@ public interface SeguidorRepository extends JpaRepository<Seguidor, Long> {
 
 	@Query("select s from Seguidor s where s.idseguidor = :idseguidor")		
 	public List<Seguidor> findbyIdSeguidor(@Param("idseguidor") int idseguidor);
+	
 }

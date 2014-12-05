@@ -14,7 +14,7 @@
 	margin: 16px;
 }
 </style>
-<title>Iniciar sesión</title>
+<title>Recuperar contraseña</title>
 </head>
 <body>
 	<script src="jquery-1.8.3.js">
@@ -51,24 +51,16 @@
 	<form:form id="myForm" method="post"
 		class="col-md-6" commandName="usuarioLogin">
 		<fieldset>
-			<div class="form-group">
-				<form:input type="text" name="j_usuario" class="form-control" path="usuario"
-						id="usuarioInput" placeholder="Usuario" />
-				<form:errors path="usuario" cssClass="error" />
+			Ingrese su Email
+			<div class="form-group">				
 			</div>
-			<div class="form-group">
-				<form:input type="password" class="form-control" path="password" id="passwordInput" name="j_password" placeholder="Contraseña" />
-				<form:errors path="password" cssClass="error" />
-			</div> 			
 			<div class="row">
 			 	<div class="col-md-8 col-md-offset-0">
-			 		<button class="btn btn-primary">Iniciar Sesión</button>  					
+			 	<form>
+			 	<input type="text">	<br/><br/><button class="btn btn-primary">Enviar Email</button>
   				</div>
-  				<div class="col-md-0 col-md-offset-0">
-			 		<a href="recuperar_password.html">Recuperar contraseña</a><br/>
-			 		<a href="registro.html">Crear usuario</a>
-			 	</div>
-			 	<c:if test="${error}">Usuario o contraseña incorrecta</c:if>
+			 	</form>
+			 	
 			</div>
 		</fieldset> 
 	</form:form>

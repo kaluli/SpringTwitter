@@ -6782,11 +6782,11 @@ td.visible-print {
 }
 
 #seguidores{
-	margin-left:250px;	
+	margin-left:350px;	
 }
 
 #seguir{
-	float:right;
+	left;
 	color: #ffffff;
     moz-user-select: none;
     border: 1px solid transparent;
@@ -6836,12 +6836,14 @@ td.visible-print {
 #mensaje{
 	border: 1px solid #e1e1e8;
 	border-radius: 16px;
-	padding:10px;
+	padding:11px;
 	cursor: pointer;
 }
 
 .imagenes img{
 	height:20px;
 	width:20px;
-	margin-left:100px;	
+	float:right;
+	position: relative;
+    top: -18px;	
 }

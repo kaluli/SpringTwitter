@@ -25,7 +25,7 @@ import com.programacionII.service.UsuarioService;
 
 
 @Controller
-@SessionAttributes("usuario") //Spring obtiene una instancia de la session
+@SessionAttributes("usuarioSession") //Spring obtiene una instancia de la session
 public class SeguidorController {
 	
 	@Autowired
@@ -33,19 +33,18 @@ public class SeguidorController {
 	@Autowired
 	private UsuarioService usuarioService;
 	private Seguidor seguidor;
-	private List<Usuario> seguidores_usuario;
 	
 	//RequestParam va a ser requerido
 		@RequestMapping(value="/seguir", method=RequestMethod.GET)
 		public @ResponseBody Model buscar(Model model, @RequestParam("id") int idseguidor, HttpSession session) {
-			seguidor = new Seguidor();
+			seguidor = new Seguidor();	
 			Usuario usu = new Usuario();
 			usu = usuarioService.findByUserName(session.getAttribute("usuarioSession").toString());
 			session.setAttribute("usuarioSession",session.getAttribute("usuarioSession"));
 			if ((seguidor = seguidorService.findById(idseguidor,usu.getId())) == null){
 				seguidor = new Seguidor();
 				seguidor.setIdUsuario(idseguidor);
-				seguidor.setIdSeguidor(usu.getId());
+				seguidor.setIdSeguidor(usu.getId());				
 				seguidorService.save(seguidor);
 				model.addAttribute("mensaje", "Ahora sigues a este usuario");				
 			}
@@ -142,7 +141,5 @@ public class SeguidorController {
 			}
 			return "seguidores";
 		}
-		
-		
-	
+			
 }

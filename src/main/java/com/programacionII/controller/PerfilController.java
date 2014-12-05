@@ -15,9 +15,12 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
+
 import com.programacionII.model.Mensaje;
+import com.programacionII.model.Seguidor;
 import com.programacionII.model.Usuario;
 import com.programacionII.service.MensajeService;
+import com.programacionII.service.SeguidorService;
 import com.programacionII.service.UsuarioService;
 
 
@@ -29,32 +32,62 @@ public class PerfilController {
 	private UsuarioService usuarioService;
 	@Autowired
 	private MensajeService mensajeService;
-
+	@Autowired
+	private SeguidorService seguidorService;
+	
 	@RequestMapping(value="/perfil", method=RequestMethod.GET)	
-	public String perfil(Model model,  HttpSession session, @RequestParam(value="id", required=false) Integer id, @RequestParam(value="idmensaje", required=false) Integer idmensaje) {
-		
+	public String perfil(Model model,  HttpSession session, @RequestParam(value="id", required=false) Integer id, @RequestParam(value="action", required=false) String action, @RequestParam(value="idmensaje", required=false) Integer idmensaje) {
 		if(session.getAttribute("usuarioSession") == null)
 			return "redirect:login.html";
+
+		if (action != null){
+			if(action.equals("retwittear") && (id != null) && (idmensaje != null)){
+				Usuario usu = usuarioService.findByUserName(session.getAttribute("usuarioSession").toString());					
+				Usuario origen = usuarioService.findById(id);					
+				Mensaje mensaje = mensajeService.findById(idmensaje);
+				Mensaje mensajeRT = new Mensaje();
+				mensajeRT.setTexto("RT @" + origen.getUsuario() + " - " + mensaje.getTexto());
+				mensajeRT.setIdDestino(usu.getId());
+				mensajeRT.setIdOrigen(usu.getId());
+				mensajeService.save(mensajeRT);	
+				return "redirect:perfil.html";
+			}
+				
+			
+			if(action.equals("dejarseguir") && (id != null)){
+				Usuario usu = usuarioService.findByUserName(session.getAttribute("usuarioSession").toString());		
+				Seguidor seguidor = seguidorService.findById(id,usu.getId());
+				if (seguidor != null)
+					seguidorService.delete(seguidor);
+				return "redirect:perfil.html";
+			}
+				
+			//Borrar mensaje
+			if (action.equals("delete") && idmensaje != null){ //validacion para que no pueda eliminar mensajes de otros..
+				Mensaje mensaje = new Mensaje();
+				mensaje.setId(idmensaje);
+				mensajeService.delete(mensaje);			
+			}
+		}	
+		Usuario usu = new Usuario();		
+		String nombre_usuario = session.getAttribute("usuarioSession").toString();
+		usu = usuarioService.findByUserName(nombre_usuario);
+		int idlogueado = usu.getId();
 		
-		if (idmensaje != null){ //validacion para que no pueda eliminar mensajes de otros..
-			Mensaje mensaje = new Mensaje();
-			mensaje.setId(idmensaje);
-			mensajeService.delete(mensaje);			
-		}
-		
-		Usuario usu = new Usuario();
 		if(id == null){ //Mi perfil
-			String nombre_usuario = session.getAttribute("usuarioSession").toString();
-			usu = usuarioService.findByUserName(nombre_usuario);
 			model.addAttribute("yomismo", true);		
-			//Uso relacion entre Usuario -> Seguidores
 			
 		}
 		else{ //Perfil de otro usuario
 			usu = usuarioService.findById(id);
-			model.addAttribute("yomismo", false);		
-		}
-		
+			model.addAttribute("yomismo", false);
+			if ((seguidorService.findById(id, idlogueado)) == null){
+				model.addAttribute("losigues", false);					
+			}
+			else
+				model.addAttribute("losigues", true);					
+			
+		}		
 		model.addAttribute("siguiendo", usu.getSiguiendo().size());
 		model.addAttribute("seguidores", usu.getSeguidores().size());
 		model.addAttribute("mensajes", usu.getMensajes().size());
@@ -74,8 +107,7 @@ public class PerfilController {
 			model.addAttribute("usuario", usu);
 		}
 		else{
-			Usuario usu = new Usuario();
-			usu = usuarioService.findByUserName(session.getAttribute("usuarioSession").toString());						
+			Usuario usu = usuarioService.findByUserName(session.getAttribute("usuarioSession").toString());						
 			Mensaje mensaje = new Mensaje();
 			mensaje.setIdOrigen(usu.getId()); //Siempre es el de la sesion
 			if (id == null){
@@ -83,7 +115,8 @@ public class PerfilController {
 				model.addAttribute("yomismo", true);
 			}
 			if (id != usu.getId()){
-				texto = texto + "@" + usu.getUsuario(); 
+				Usuario destinatario = usuarioService.findById(id);										
+				model.addAttribute("destinatario", destinatario); 
 			}
 			mensaje.setIdDestino(id);
 			if (texto.length() > 0){
@@ -107,24 +140,37 @@ public class PerfilController {
 	
 	//RequestParam va a ser requerido
 	@RequestMapping(value="/buscar", method=RequestMethod.GET)
-	public @ResponseBody Model buscar(Model model, @RequestParam("buscar") String buscar, HttpSession session) {
+	public @ResponseBody Model buscar(Model model, @RequestParam(value="buscar", required=false) String buscar, HttpSession session) {
 		boolean logueado;
 		if(session.getAttribute("usuarioSession") == null)
 			logueado = false;
 		else
 			logueado= true;
 		
+		//Seguidores del usuario que inició sesión
 		if(session.getAttribute("usuarioSession") != null){
 			session.setAttribute("usuarioSession",session.getAttribute("usuarioSession"));
 			String nombre_usuario = session.getAttribute("usuarioSession").toString();
 			Usuario usu = usuarioService.findByUserName(nombre_usuario);
-			model.addAttribute("seguidores", usu.getSeguidores());		
+			model.addAttribute("siguiendo", usu.getSiguiendo());
+/*			 for(int i = 0; i < usu.getSeguidores().size(); i++) {
+		            System.out.println(usu.getSeguidores().get(i).getIdSeguidor());
+
+		        }*/
+			if ((buscar != null)){
+				//Todos los usuarios que matchean con la búsqueda
+				List<Usuario> usuarios = usuarioService.findbyName(buscar);				
+				model.addAttribute("usuarios", usuarios);
+				//Seguidores del usuario que inició sesión
+				/*Usuario usu = usuarioService.findByUserName();
+				 for(int i = 0; i < usu.getSeguidores().size(); i++) {
+			            System.out.println(usu.getSeguidores().get(i).getIdUsuario());
+			        }
+				model.addAttribute("seguidores", usu.getSeguidores());*/		
+				model.addAttribute("logueado", logueado);	
+				model.addAttribute("yomismo", session.getAttribute("usuarioSession"));
 			}
-			//VER
-		List<Usuario> usuarios = usuarioService.findbyName(buscar);				
-		model.addAttribute("usuarios", usuarios);
-		model.addAttribute("logueado", logueado);	
-		model.addAttribute("yomismo", session.getAttribute("usuarioSession"));		
+		}
 	    return model;
 	}
 	

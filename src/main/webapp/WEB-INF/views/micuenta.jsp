@@ -1,5 +1,7 @@
 <%@ include file="/WEB-INF/views/header.jsp" %>  
-<title>Buscar Usuarios</title>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>							
+
+<title>Mi cuenta</title>
 </head>
 <body>
 
@@ -14,8 +16,10 @@
 
 		<div class="navbar-collapse collapse navbar-responsive-collapse">								
 			<ul class="nav navbar-nav navbar-right">
-				<li><a href="/programacionII">Inicio</a></li>				
-				<li class="active">
+				<li><a href="/programacionII">Inicio</a></li>	
+				<li class="active"><a href="micuenta.html">Mi cuenta</a></li>			
+				<li><a href="notificaciones.html">Notificaciones</a></li>				
+				<li>
 				<c:choose>
 				<c:when test="${logueado}"><a href="perfil.html"><%= session.getAttribute("usuarioSession") %></a></c:when>				
 				<c:otherwise>
@@ -45,22 +49,24 @@
 	<div class="container">
 		<div class="busqueda">
 			
-			<div class="row">				 
-				<div class="col-md-5" id ="seguidores">
-						<h2>Seguidores de ${usuario.nombre} ${usuario.apellido} </h2><br/>
-						
-						<c:forEach var="seguidor" items="${seguidores}">
-						<div>
-							<p>									
-								<a href='perfil.html?id=<c:out value="${seguidor.id}"/>'>
-								${seguidor.nombre} ${seguidor.apellido} (@${seguidor.usuario}) </a>
-							
-    						</p> 
-		                </div>
-						</c:forEach>
-						
-		  	  	</div>					  
+			<div class="row">
 				<div class="col-md-4">
+				 
+				</div>				 
+				<div class="col-md-6" >
+						<h2>Mi cuenta</h2>		
+						<form>	
+						Usuario: ${usuario.usuario}<br/>
+						Nombre: ${usuario.nombre}<br/>
+						Apellido: ${usuario.apellido}<br/>
+						Fecha de Nacimiento:
+						<fmt:formatDate value="${usuario.nacimiento}" pattern="dd/MM/yyyy" /><br/>												
+						Email: ${usuario.email}<br/>
+		                Contraseña: ********** <a href="cambiarpassword.html">(Modificar Contraseña)</a><br/>
+		                </form>
+		              
+		  	  	</div>					  
+				<div class="col-md-2">
 				 
 				</div>
 			</div>		
@@ -75,7 +81,7 @@
 		<div class="panel-body">
 		<div class="alert alert-dismissable alert-success">
               <button type="button" class="close" data-dismiss="alert">Ocultar Consejo</button>
-              Hacé click en <strong>Seguir</strong> para estar al tanto de todas las noticias de tus usuarios de interés.  
+              Ponga una contraseña segura.  
             </div>
 		</div>
 	<div></div>

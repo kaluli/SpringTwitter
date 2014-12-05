@@ -19,8 +19,7 @@ public class MensajeServiceImpl implements MensajeService {
 
 	@Override
 	public Mensaje findById(int id) {
-		// TODO Auto-generated method stub
-		return null;
+		return mensajeRepository.findById(id);
 	}
 
 	@Transactional

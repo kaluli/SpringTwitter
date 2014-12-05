@@ -1,4 +1,6 @@
 <%@ include file="/WEB-INF/views/header.jsp" %>  
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>							
+
 <title>Buscar Usuarios</title>
 </head>
 <body>
@@ -14,7 +16,9 @@
 
 		<div class="navbar-collapse collapse navbar-responsive-collapse">								
 			<ul class="nav navbar-nav navbar-right">
-				<li><a href="/programacionII">Inicio</a></li>				
+				<li><a href="/programacionII">Inicio</a></li>		
+				<li><a href="micuenta.html">Mi cuenta</a></li>			
+				<li><a href="notificaciones.html">Notificaciones</a></li>			
 				<li class="active">
 				<c:choose>
 				<c:when test="${logueado}"><a href="perfil.html"><%= session.getAttribute("usuarioSession") %></a></c:when>				
@@ -48,19 +52,14 @@
 			<div class="row">				 
 				<div class="col-md-5" id ="seguidores">
 						<h2>Busca un usuario</h2>			
-						<c:forEach var="usuario" items="${usuarios}">
+						<c:forEach var="usuario" items="${usuarios}">											
 						<div>
-							<p>
 							<c:if test="${usuario.usuario != yomismo}">
 							<a href='perfil.html?id=<c:out value="${usuario.id}"/>'>
 							${usuario.nombre} ${usuario.apellido} (@${usuario.usuario}) </a>
-							<span id ="seguir"> 
-							<a href="${pageContext.request.contextPath}/seguir.html?id=${usuario.id}">
-							Seguir</a>
-							</span>
-							</c:if>
-							</p> 
+							</c:if>											
 		                </div>
+		              
 						</c:forEach>
 		  	  	</div>					  
 				<div class="col-md-4">

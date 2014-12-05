@@ -40,7 +40,6 @@
 			
 			<div class="row">				 
 				<div class="col-md-5" id ="seguidores">
-						<h2>Busca un usuario</h2>			
 						<c:forEach var="usuario" items="${usuarios}">
 						<div>
 							<p>
@@ -54,7 +53,7 @@
 		                </div>
 						</c:forEach>
 		  	  	</div>					  
-				<div class="col-md-4">
+				<div align="center" class="col-md-4">
 				 ${mensaje}
 				</div>
 			</div>		

@@ -23,7 +23,8 @@ public class Seguidor {
 	
 	@NotNull
 	private int idseguidor;
-		
+			
+	
 	public int getIdUsuario() {
 		return idusuario;
 	}

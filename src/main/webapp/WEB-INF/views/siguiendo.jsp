@@ -47,27 +47,13 @@
 			
 			<div class="row">				 
 				<div class="col-md-5" id ="seguidores">
-						<h2>Seguidores de ${usuario.nombre} ${usuario.apellido} </h2><br/>
+						<h2>A quién sigue ${usuario.nombre} ${usuario.apellido} </h2><br/>
 						
 						<c:forEach var="seguidor" items="${seguidores}">
 						<div>
 							<p>
 								<a href='perfil.html?id=<c:out value="${seguidor.id}"/>'>
 								${seguidor.nombre} ${seguidor.apellido} (@${seguidor.usuario}) </a>
-							<c:choose>
-								<c:when test="${seguidor.usuario != yomismo}">
-								<span id ="seguir"> 
-								<a href="${pageContext.request.contextPath}/seguir.html?id=${seguidor.id}">
-								Seguir</a>
-								</span>
-								</c:when>
-								<c:otherwise>
-								<span id ="seguir"> 
-								<a href="${pageContext.request.contextPath}/perfil.html?id=${seguidor.id}">
-								Sigues a este usuario</a>
-								</span>								
-								</c:otherwise>				
-							</c:choose>
     						</p> 
 		                </div>
 						</c:forEach>

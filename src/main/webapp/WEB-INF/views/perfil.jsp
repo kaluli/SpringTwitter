@@ -1,5 +1,6 @@
-<%@ include file="/WEB-INF/views/header.jsp" %>  
-<title>Mi Cuenta</title>
+<%@ include file="/WEB-INF/views/header.jsp" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>  
+<title>Perfil</title>
 <script src="jquery-1.8.3.js"></script>
 <script src="bootstrap/js/bootstrap.js"></script>	 
 </head>
@@ -18,7 +19,9 @@
 		<div class="navbar-collapse collapse navbar-responsive-collapse">
 									
 			<ul class="nav navbar-nav navbar-right">
-				<li><a href="/programacionII">Inicio</a></li>				
+				<li><a href="/programacionII">Inicio</a></li>	
+				<li><a href="micuenta.html">Mi cuenta</a></li>			
+				<li><a href="notificaciones.html">Notificaciones</a></li>			
 				<li class="active"><a href="perfil.html"><%= session.getAttribute("usuarioSession") %></a></li>				
 				<li>
 				<form:form modelAttribute="buscar" action="${pageContext.request.contextPath}/buscar.html" method="get">
@@ -43,7 +46,23 @@
 		<div class="jumbotron">
 			<div class="row">
 				<div class="col-md-3" id="cuadro">
-					<h2>Mi cuenta</h2>
+					<c:if test="${not yomismo}">
+						<span id ="seguir">
+						<c:if test="${losigues}">
+						<a href="${pageContext.request.contextPath}/perfil.html?id=${usuario.id}&action=dejarseguir">						
+						Dejar de Seguir</a>
+						</c:if>
+						<c:if test="${not losigues}">
+						<a href="${pageContext.request.contextPath}/seguir.html?id=${usuario.id}">						
+						Seguir</a>						
+						</c:if>
+						</span>
+						
+					</c:if>													
+					<c:if test="${yomismo}">
+						Mi cuenta
+					</c:if>													
+					
 					<br/><strong>${usuario.nombre} ${usuario.apellido}</strong>
 					<br/><p>@${usuario.usuario}</p>
 					<br/>Mensajes: ${mensajes}
@@ -62,26 +81,42 @@
 							<span id="usuario">@<c:out value="${usuario.usuario}"/></span> -
 						 	<fmt:formatDate value="${mensaje.fecha}" pattern="dd/MM/yyyy HH:mm" />						
 							<br/>
-							<c:out value="${mensaje.texto}"/><br/>
+							<c:if test="${fn:contains(mensaje.texto, '@')}">
+   							<a href="perfil.html?id=${mensaje.idDestino}">${mensaje.texto}</a>							
+   							</c:if>
+   							
+							<c:out value="${mensaje.texto}"/><br/>							
+							
 							<div class="imagenes">
-								<a href="#"><img src="assets/img/reply.png"></a>
 								<c:if test="${yomismo}">
 								<a href="perfil.html?action=delete&idmensaje=${mensaje.id}"><img src="assets/img/delete.png"></a>
 								</c:if>							
 								<c:if test="${not yomismo}">
-								<a href="#"><img src="assets/img/retwitt.png"></a>
+								<a href="perfil.html?action=retwittear&idmensaje=${mensaje.id}&id=${usuario.id}"><img src="assets/img/retwitt.png"></a>
 								</c:if>															
 							</div>			
 							</div>
 						</c:forEach>
 				</div>
 				<div class="col-md-3" id="cuadro">
-					<h2>Escribe algo</h2>							
+					<c:if test="${yomismo}">
+					<h2>Escribe algo</h2>
+					</c:if>
+					<c:if test="${not yomismo}">
+					<h2>Twittear</h2>
+					</c:if>							
 					 <form:form id="enviaMensaje" method="post" class="bs-example form-horizontal" commandName="mensaje" >				
-						<div class="form-group">										
+						<div class="form-group">			
+							<c:if test="${yomismo}">							
 							<form:input type="text" class="form-control" path="texto"
 							id="textoInput" placeholder="¿Qué estas pensando?" />
-							<form:errors path="texto" cssClass="error" />							
+							<form:errors path="texto" cssClass="error" />
+							</c:if>
+							<c:if test="${not yomismo}">							
+							<form:input type="text" class="form-control" path="texto"
+							id="textoInput" value="@${usuario.usuario} " placeholder="Escribile a ${usuario.usuario}" />
+							<form:errors path="texto" cssClass="error" />
+							</c:if>							
 						</div>						
 						<button class="btn btn-primary" data-toggle="modal"
 							data-target="#themodal">Enviar</button>
@@ -107,8 +142,7 @@
 									</div>
 								</div>
 							</div>
-						</div>
-						<div><h3>A quién seguir</h3></div>
+						</div>						
 					</form:form>						
                 </div>				     
 	  	  	</div>					  
@@ -132,15 +166,7 @@
 	<div></div>
 	<a class="btn btn-primary" href="<spring:url value="login.html"/>">Iniciar sesión 
 	con un usuario diferente?</a>
-	
-	<br/><br/>seguir y dejar de seguir!!!!			
-	<br/><br/>Tag al escribir en el perfil de otro usuario y con @ en la vista!!		
-	<br/><br/>Mi cuenta  
-	<br/>  Retwittear
-	<br/>  Responder
-	<br/> Hacer Notificaciones -> Tiene un nuevo seguidor
-	<br/> Hacer Mi cuenta -> Cambiar nombre y contraseña VER MD5    
-	<br/> Recuperar contraseña    VER MD5
+
 	<br/> Leer acerca de Servicios -> y repository
 	<br/> Crear regla de url amigables en bean xml
 	<br/>   @Autowired - @Override - @Transactional
